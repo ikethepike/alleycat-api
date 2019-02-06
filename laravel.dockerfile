@@ -33,6 +33,8 @@ RUN apk add --no-cache --virtual .build-deps \
   zip \
   intl \
   && curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
-  && apk del -f .build-deps
+  && apk del -f .build-deps 
 
 WORKDIR /var/www
+
+RUN composer install
