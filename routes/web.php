@@ -11,6 +11,10 @@
 |
 */
 
+Route::view("/login", "Login")->name("login");
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });

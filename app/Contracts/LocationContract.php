@@ -9,5 +9,5 @@ interface LocationContract
      *
      * @param int $count
      */
-    public function getLocations(int $count = 20);
+    public function getLocations(float $longitude, float $latitude, int $count = 20, int $radius = 15000);
 }

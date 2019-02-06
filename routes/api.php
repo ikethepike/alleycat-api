@@ -22,10 +22,10 @@ Route::group(['prefix' => 'user'], function () {
 
 /* Protected Resource Routes */
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::resource('race', 'RaceController');
-    Route::resource('competitor', 'CompetitorController');
-    Route::resource('stat', 'StatController');
-    Route::resource('checkpoint', 'CheckpointController');
+    Route::resource('races', 'RaceController');
+    Route::resource('competitors', 'CompetitorController');
+    Route::resource('stats', 'StatController');
+    Route::resource('checkpoints', 'CheckpointController');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -10,11 +10,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory(AlleyCat\User::class, 50)->create()->each(function ($user) {
-            $user->races()->save(factory(AlleyCat\Race::class, 10)->make());
+            $user->races()->save(factory(AlleyCat\Race::class)->make());
         });
 
         Factory(AlleyCat\Competitor::class, 100)->create()->each(function ($competitor) {
-            $competitor->stats()->save(factory(AlleyCat\Stat::class, 6)->make());
+            $competitor->stats()->save(factory(AlleyCat\Stat::class)->make());
         });
     }
 }

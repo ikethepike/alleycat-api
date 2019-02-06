@@ -4,14 +4,16 @@ services:
     image: jguyomard/laravel-php:7.2
     volumes:
       - ./:/var/www/
+    env_file:
+      - .env
     environment:
-      - "DB_HOST=mysql"
-      - "DB_DATABASE=homestead"
-      - "DB_USERNAME=homestead"
-      - "DB_PASSWORD=homestead"
-      - "REDIS_HOST=redis"
-      - "REDIS_PORT=6379"
-
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      DB_HOST: ${DB_CONNECTION}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
   nginx:
     image: jguyomard/laravel-nginx:1.13
     volumes_from:
@@ -21,21 +23,20 @@ services:
 
   mysql:
     image: mysql:5.7
+    env_file:
+      - .env
     volumes:
       - mysqldata:/var/lib/mysql
     environment:
-      - "MYSQL_ROOT_PASSWORD=secret"
-      - "MYSQL_DATABASE=homestead"
-      - "MYSQL_USER=homestead"
-      - "MYSQL_PASSWORD=homestead"
-   ports:
-       - "3306:3306"
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    ports:
+      - 3306:3306
 
   redis:
     image: redis:4.0-alpine
     command: redis-server --appendonly yes
-
-
 volumes:
   mysqldata:
-  pgsqldata:
