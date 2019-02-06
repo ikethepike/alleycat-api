@@ -8,21 +8,20 @@ class CreateCheckpointsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         Schema::create('checkpoints', function (Blueprint $table) {
             $table->increments('id');
+            $table->float('longitude')->comment('x-axis');
+            $table->float('latitude')->comment('y-axis');
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
