@@ -2,7 +2,9 @@
 
 namespace AlleyCat\Http\Controllers;
 
+use AlleyCat\Race;
 use Illuminate\Http\Request;
+use AlleyCat\Http\Requests\Race\StoreRequest;
 use AlleyCat\Repositories\FoursquareRepository;
 
 class RaceController extends Controller
@@ -24,7 +26,7 @@ class RaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $foursquare = new FoursquareRepository();
         $fourquare->getLocations($request->longitude, $request->lattitude, $request->count, $request->radius);
@@ -41,19 +43,7 @@ class RaceController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return Race::findOrFail($id);
     }
 
     /**
@@ -66,7 +56,16 @@ class RaceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $race = Race::findOrFail($id);
+        if ($race->user_id === $request->user()->id) {
+            $race->update($request->all());
+
+            $race->save();
+
+            return $race;
+        }
+
+        return abort(401);
     }
 
     /**
@@ -78,6 +77,13 @@ class RaceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $race = Race::findOrFail($id);
+        if ($race->user_id === $request->user()->id) {
+            $race->destroy();
+
+            return (int) true;
+        }
+
+        return abort(401);
     }
 }
