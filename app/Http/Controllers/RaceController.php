@@ -4,7 +4,6 @@ namespace AlleyCat\Http\Controllers;
 
 use AlleyCat\Race;
 use Illuminate\Http\Request;
-use AlleyCat\Http\Requests\Race\StoreRequest;
 use AlleyCat\Repositories\FoursquareRepository;
 
 class RaceController extends Controller
@@ -26,12 +25,22 @@ class RaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
         $foursquare = new FoursquareRepository();
-        $fourquare->getLocations($request->longitude, $request->lattitude, $request->count, $request->radius);
+        $points     = $foursquare->getLocations($request->longitude, $request->latitude, $request->count, $request->radius);
 
-        return auth()->user()->races()->create($request->all());
+        $race = auth()->user()->races()->create($request->all());
+
+        foreach ($points as $point) {
+            $race->checkpoints()->create([
+                'longitude' => $point->location->lng,
+                'latitude'  => $point->location->lat,
+                'name'      => $point->name,
+            ]);
+        }
+
+        return $race->load('checkpoints');
     }
 
     /**

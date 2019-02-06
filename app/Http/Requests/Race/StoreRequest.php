@@ -25,8 +25,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'      => 'required',
-            'longitude' => 'float|required',
-            'lattitude' => 'float|required',
+            'longitude' => 'numeric|required',
+            'latitude'  => 'numeric|required',
             'count'     => 'int|max:50',
             'radius'    => 'required|integer',
         ];

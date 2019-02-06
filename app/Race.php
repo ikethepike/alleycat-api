@@ -13,6 +13,13 @@ class Race extends Model
      */
     protected $fillable = ['name'];
 
+    /**
+     * Properties to lazy load.
+     *
+     * @var array
+     */
+    protected $with = ['checkpoints'];
+
     /* Race relations */
 
     /**
@@ -43,5 +50,15 @@ class Race extends Model
     public function stats()
     {
         return $this->hasMany(Stat::class);
+    }
+
+    /**
+     * Return the checkpoints associated with the race.
+     *
+     * @return Alleycat\Checkpoint
+     */
+    public function checkpoints()
+    {
+        return $this->hasMany(Checkpoint::class);
     }
 }

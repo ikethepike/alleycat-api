@@ -73,10 +73,10 @@ class CurlRepository implements CurlContract
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return collect([
+        return (object) [
             'body'   => json_decode($data),
             'status' => $code,
             'url'    => $url,
-        ]);
+        ];
     }
 }
