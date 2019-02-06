@@ -43,6 +43,20 @@ class User extends Authenticatable
      */
     protected $appends = ['name'];
 
+    /* Relations */
+
+    /**
+     * Returns all races created by user.
+     *
+     * @return AlleyCat\Race
+     */
+    public function races()
+    {
+        return $this->hasMany(Race::class);
+    }
+
+    /* Appended Attributes */
+
     /**
      * Returns the full user name.
      *
