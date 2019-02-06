@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace AlleyCat;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -16,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password', 'first_name', 'last_name',
     ];
 
     /**
@@ -36,4 +35,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Added attributes.
+     *
+     * @var array
+     */
+    protected $appends = ['name'];
+
+    /**
+     * Returns the full user name.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
