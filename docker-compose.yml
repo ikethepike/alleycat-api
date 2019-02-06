@@ -1,0 +1,51 @@
+version: '3.6'
+
+volumes:
+  database:
+  backend:
+
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    volumes:
+      - database:/var/lib/mysql
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    ports:
+      - '3306:3306'
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - mariadb
+  nginx:
+    build:
+      context: ./
+      dockerfile: nginx.dockerfile
+    links:
+      - laravel
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www/
+  laravel:
+    image: jguyomard/laravel-php:7.2
+    environment:
+      - 'DB_PORT=3306'
+      - 'DB_HOST=mariadb'
+    links:
+      - mariadb
+    volumes:
+      - ./:/var/www/
+      - backend:/var/www/
+  redis:
+    image: redis
+    command: redis-server --appendonly yes
