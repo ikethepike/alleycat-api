@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         Factory(AlleyCat\Competitor::class, 100)->create()->each(function ($competitor) {
             $competitor->stats()->save(factory(AlleyCat\Stat::class)->make());
         });
+
+        Factory(AlleyCat\Location::class, 100)->create();
     }
 }
